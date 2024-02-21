@@ -31,3 +31,6 @@ class Board:
             if self.spaces[winner[0][0]][winner[0][1]] == self.spaces[winner[1][0]][winner[1][1]] and self.spaces[winner[0][0]][winner[0][1]] == self.spaces[winner[2][0]][winner[2][1]]:
                    return symbol
         return False
+
+    def get_symbol_at_coord(self, x, y):
+        return self.spaces[x][y]
