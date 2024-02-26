@@ -28,4 +28,5 @@ while not controller.is_game_over():
             if event.key == pygame.K_q:
                 controller.game_over = True
     controller.update_view()
+input("Press Enter to end game")
 pygame.quit()

@@ -8,13 +8,35 @@ class View:
     def __init__(self):
         pygame.init()
         self.game = pygame.display.set_mode([View.MASTER_WIDTH, 1000])
-        self.game.fill(Color.PURPLE)
+        self.game.fill(Color.DARK_GREEN)
+#        self.print_debug_lines()
+
+    def print_debug_lines(self):
+        pygame.draw.line(self.game, (200, 200, 200), (0, 100), (900, 100), 1)
+        pygame.draw.line(self.game, (200, 200, 200), (0, 200), (900, 200), 1)
+        pygame.draw.line(self.game, (200, 200, 200), (0, 300), (900, 300), 1)
+        pygame.draw.line(self.game, (200, 200, 200), (0, 400), (900, 400), 1)
+        pygame.draw.line(self.game, (200, 200, 200), (0, 500), (900, 500), 1)
+        pygame.draw.line(self.game, (200, 200, 200), (0, 600), (900, 600), 1)
+        pygame.draw.line(self.game, (200, 200, 200), (0, 700), (900, 700), 1)
+        pygame.draw.line(self.game, (200, 200, 200), (0, 800), (900, 800), 1)
+        pygame.draw.line(self.game, (200, 200, 200), (0, 900), (900, 900), 1)
+        pygame.draw.line(self.game, (200, 200, 200), (100, 0), (100, 900), 1)
+        pygame.draw.line(self.game, (200, 200, 200), (200, 0), (200, 900), 1)
+        pygame.draw.line(self.game, (200, 200, 200), (300, 0), (300, 900), 1)
+        pygame.draw.line(self.game, (200, 200, 200), (400, 0), (400, 900), 1)
+        pygame.draw.line(self.game, (200, 200, 200), (500, 0), (500, 900), 1)
+        pygame.draw.line(self.game, (200, 200, 200), (600, 0), (600, 900), 1)
+        pygame.draw.line(self.game, (200, 200, 200), (700, 0), (700, 900), 1)
+        pygame.draw.line(self.game, (200, 200, 200), (800, 0), (800, 900), 1)
+        pygame.draw.line(self.game, (200, 200, 200), (900, 0), (900, 900), 1)
+        
 
     def print_game_info(self, current_player):
         x, y = (0, 900)
         font = pygame.font.SysFont('chalkduster', 32)
-        text = font.render('Current Player: ' + current_player, True, Color.WHITE, Color.PURPLE)
-        text_button = font.render('New Game ', True, Color.WHITE, Color.PURPLE)
+        text = font.render('Current Player: ' + current_player, True, Color.WHITE, Color.DARK_GREEN)
+        text_button = font.render('New Game ', True, Color.WHITE, Color.DARK_GREEN)
         textRect = text.get_rect()
         text_buttonRect = text_button.get_rect()
         textRect.center = (View.MASTER_WIDTH / 2 + x, y + 20)
@@ -22,32 +44,37 @@ class View:
         text_buttonRect.center = (View.MASTER_WIDTH / 2 + x, y + 50)
         self.game.blit(text_button, text_buttonRect)
         
+        
     def print_board( self, x, y, width, color):
-        pygame.draw.line(self.game,(color),(x+1/3*width,y),(x+1/3*width,y+width),10)
-        pygame.draw.line(self.game,(color),(x+2/3*width,y),(x+2/3*width,y+width),10)
-        pygame.draw.line(self.game,(color),(x,y+1/3*width),(x+width,y+1/3*width),10)
-        pygame.draw.line(self.game,(color),(x,y+2/3*width),(x+width,y+2/3*width),10)
-        pygame.draw.rect(self.game, (70,70,70), pygame.Rect(0,0,100,100))
-        #pygame.draw.rect(self.game, (90,90,90), pygame.Rect(100,0,100,100))
-        pygame.draw.rect(self.game, (110,110,110), pygame.Rect(200,0,100,100))
-        #pygame.draw.rect(self.game, (130,130,130), pygame.Rect(300,0,100,100))
-        pygame.draw.rect(self.game, (150,150,150), pygame.Rect(400,0,100,100))
-        #pygame.draw.rect(self.game, (170,170,170), pygame.Rect(500,0,100,100))
-        pygame.draw.rect(self.game, (190,190,190), pygame.Rect(600,0,100,100))
-        #pygame.draw.rect(self.game, (210,210,210), pygame.Rect(700,0,100,100))
-        pygame.draw.rect(self.game, (230,230,230), pygame.Rect(800,0,100,100))
-        pygame.draw.rect(self.game, (230,230,230), pygame.Rect(0,200,100,100))
-        pygame.draw.rect(self.game, (230,230,230), pygame.Rect(0,400,100,100))
-        pygame.draw.rect(self.game, (230,230,230), pygame.Rect(0,600,100,100))
-        pygame.draw.rect(self.game, (230,230,230), pygame.Rect(0,800,100,100))
+        margin = width // 20
+        pygame.draw.line(self.game,(color),(x+ width // 3,y + margin),(x+width // 3,y+width - margin),10)
+        pygame.draw.line(self.game,(color),(x+ width // 3 * 2,y + margin),(x+2*width // 3,y + width - margin),10)
+        pygame.draw.line(self.game,(color),(x + margin,y+1/3*width),(x+width - margin,y+1/3*width),10)
+        pygame.draw.line(self.game,(color),(x + margin,y+2/3*width),(x+width - margin,y+2/3*width),10)
+        
 
     def draw_x(self, x, y, width, thickness,color):
-        pygame.draw.line(self.game,(color),(x,y),(x+width,y+width),thickness)
-        pygame.draw.line(self.game,(color),(x+width,y),(x,y+width),thickness)
+        if width <= 100:
+            font_size = 68
+        else:
+            font_size = 230
+        font = pygame.font.SysFont('chalkduster', font_size)
+        font_surface = font.render('X', True, color, Color.DARK_GREEN)
+        font_rect = font_surface.get_rect()
+        font_rect.center = (x + width // 2, y + width // 2)
+        self.game.blit(font_surface, font_rect)
+        
         
     def draw_o(self,x, y, width, thickness,color):
-        width = 1/2*width
-        pygame.draw.circle(self.game,color,(x+width,y+width),width,8)
+        if width <= 100:
+            font_size = 68
+        else:
+            font_size = 230
+        font = pygame.font.SysFont('chalkduster', font_size)
+        text = font.render('O', True, color, Color.DARK_GREEN)
+        textRect = text.get_rect()
+        textRect.center = (x + width // 2, y + width // 2)
+        self.game.blit(text, textRect)
         
     def draw_square(self, x,y,width,color):
         pygame.draw.line(self.game,(color),(x,y),(x+width,y),10)

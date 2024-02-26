@@ -19,8 +19,8 @@ class BoardController:
         #player_x, player_o = prompt_player_names()
         for i in range(0, BoardController.master_board_width, int(BoardController.master_board_width / 3)):
             for j in range(0, BoardController.master_board_width, int(BoardController.master_board_width / 3)):
-                self.view.print_board( i+10, j+10, 280, Color.BLUE)
-        self.view.print_board(0, 0, 900, Color.BLACK)
+                self.view.print_board(i, j, 300, Color.D_GREY)
+        self.view.print_board(0, 0, 900, Color.L_GREY)
     
     def get_board_coordinate_from_x_y(self, x, y):
         game_width = BoardController.master_board_width / 3
@@ -120,14 +120,14 @@ class BoardController:
         print("winner: " + str(winner))
         (x, y) = self.get_top_left_from_board_coord(board_coord[0], board_coord[1])
         width = 300
-        self.view.draw_square(x,y,width,Color.BLACK)
-        self.view.draw_square(0,0,900,Color.PURPLE)
+        self.view.draw_square(x,y,width,Color.L_GREY)
+        self.view.draw_square(0,0,900,Color.DARK_GREEN)
 
         if winner == BoardController.X or winner == BoardController.O:
             if winner == self.O:
-                self.view.draw_o(x, y, width-10, 15, Color.WHITE)
+                self.view.draw_o(x, y, width, 15, Color.WHITE)
             if winner == self.X:
-                self.view.draw_x(x, y, width-10, 15, Color.BLACK)
+                self.view.draw_x(x, y, width, 15, Color.YELLOW)
             self.master_board.play(winner,board_coord[0],board_coord[1])
             master_winner = self.master_board.check_winner()
             if master_winner != False:
@@ -144,11 +144,11 @@ class BoardController:
         top_left = self.get_top_left_from_board_square_coords(board_coord, square_coord, click_x, click_y)
 
         if self.current_player == self.X:
-            self.view.draw_x(top_left[0], top_left[1] + 10, small_board_width / 3 - 10, 8, Color.RED)
+            self.view.draw_x(top_left[0], top_left[1], small_board_width / 3 - 10, 8, Color.RED)
             self.current_player = self.O
             if self.previous_coord is not None:
                 self.view.draw_o(self.previous_coord[0], self.previous_coord[1] , small_board_width / 3 - 10, 8, Color.WHITE)
-            self.previous_coord = (top_left[0], top_left[1] + 10)
+            self.previous_coord = (top_left[0], top_left[1])
                 
 ##        Nice Try, but this doesn't quite work yet
 ##        elif self.current_player == "CPU":
@@ -165,11 +165,11 @@ class BoardController:
 ##                self.view.draw_x(last_coord_x_x, last_coord_y_x, small_board_width / 3 - 10, 8, Color.BLACK)
         
         else:
-            self.view.draw_o(top_left[0], top_left[1] + 10 , small_board_width / 3 - 10, 8, Color.RED)
+            self.view.draw_o(top_left[0], top_left[1] , small_board_width / 3 - 10, 8, Color.RED)
             self.current_player = self.X
             if self.previous_coord is not None:
-                self.view.draw_x(self.previous_coord[0], self.previous_coord[1], small_board_width / 3 - 10, 8, Color.BLACK)
-            self.previous_coord = (top_left[0], top_left[1] + 10)
+                self.view.draw_x(self.previous_coord[0], self.previous_coord[1], small_board_width / 3 - 10, 8, Color.YELLOW)
+            self.previous_coord = (top_left[0], top_left[1])
 
     def update_view(self):
         self.view.print_game_info(self.current_player)
