@@ -15,18 +15,20 @@ boards, master_board = createBoards()
 view = View()
 controller = BoardController(master_board, boards, view)
 controller.setup_boards()
+close_game = False
 
-while not controller.is_game_over():
+while not close_game:
     events = pygame.event.get()
     for event in events:
         # handle MOUSEBUTTONUP
         if event.type == pygame.QUIT:
-            controller.game_over = True
+            close_game = True
         if event.type == pygame.MOUSEBUTTONUP and event.button == 1:
             controller.handle_left_click_event(event)
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_q:
-                controller.game_over = True
+                close_game = True
     controller.update_view()
-input("Press Enter to end game")
+    if controller.is_game_over():
+        pass
 pygame.quit()

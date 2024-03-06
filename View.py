@@ -1,4 +1,5 @@
 import pygame
+from ButtonView import ButtonView
 from Color import Color
 
 
@@ -9,6 +10,7 @@ class View:
         pygame.init()
         self.game = pygame.display.set_mode([View.MASTER_WIDTH, 1000])
         self.game.fill(Color.DARK_GREEN)
+        self.save_game_button = ButtonView(0, 900, 200, 100, Color.WHITE, Color.DARK_GREEN, "Save Game", 32)
 #        self.print_debug_lines()
 
     def print_debug_lines(self):
@@ -43,6 +45,8 @@ class View:
         self.game.blit(text, textRect)
         text_buttonRect.center = (View.MASTER_WIDTH / 2 + x, y + 50)
         self.game.blit(text_button, text_buttonRect)
+        save_game, save_game_rect = self.save_game_button.print()
+        self.game.blit(save_game, save_game_rect)
         
         
     def print_board( self, x, y, width, color):
@@ -75,12 +79,25 @@ class View:
         textRect = text.get_rect()
         textRect.center = (x + width // 2, y + width // 2)
         self.game.blit(text, textRect)
+
+    def draw_cat(self, x, y, width):
+        surface = pygame.Surface((width, width))
+        surface.fill(Color.DARK_GREEN)
+        cat_image = pygame.image.load('cat.png').convert_alpha()
+        cat_image = pygame.transform.scale(cat_image, (width, width))
+        surface.blit(cat_image, cat_image.get_rect(center = (width // 2, width // 2)))
+        self.game.blit(surface, pygame.Rect(x, y, width, width))
+        
         
     def draw_square(self, x,y,width,color):
         pygame.draw.line(self.game,(color),(x,y),(x+width,y),10)
         pygame.draw.line(self.game,(color),(x,y),(x,y+width),10)
         pygame.draw.line(self.game,(color),(x+width,y),(x+width,y+width),10)
         pygame.draw.line(self.game,(color),(x,y+width),(x+width,y+width),10)
+
+    def handle_mouse_pos(self):
+        mouse_pos = pygame.mouse.get_pos()
+        self.save_game_button.handle_mouse_pos(mouse_pos[0], mouse_pos[1])
 
     def update(self):
         pygame.display.flip()

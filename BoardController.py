@@ -6,6 +6,7 @@ class BoardController:
     master_board_width = 900
     X = "X"
     O = "O"
+    CAT = "CAT"
     def __init__(self, master_board, boards, view):
         self.master_board = master_board
         self.boards = boards
@@ -122,18 +123,21 @@ class BoardController:
         width = 300
         self.view.draw_square(x,y,width,Color.L_GREY)
         self.view.draw_square(0,0,900,Color.DARK_GREEN)
-
-        if winner == BoardController.X or winner == BoardController.O:
+        
+        if winner != False:
             if winner == self.O:
                 self.view.draw_o(x, y, width, 15, Color.WHITE)
             if winner == self.X:
                 self.view.draw_x(x, y, width, 15, Color.YELLOW)
+            if winner == self.CAT:
+                self.view.draw_cat(x+5, y+5, width-10)
             self.master_board.play(winner,board_coord[0],board_coord[1])
             master_winner = self.master_board.check_winner()
             if master_winner != False:
                 print("master_winner")
                 print(master_winner)
                 self.game_over = True
+            
         self.current_board = square_coord
         if self.master_board.get_symbol_at_coord(square_coord[0], square_coord[1]):
             self.current_board = None
@@ -171,6 +175,11 @@ class BoardController:
                 self.view.draw_x(self.previous_coord[0], self.previous_coord[1], small_board_width / 3 - 10, 8, Color.YELLOW)
             self.previous_coord = (top_left[0], top_left[1])
 
+
     def update_view(self):
+        self.view.handle_mouse_pos()
         self.view.print_game_info(self.current_player)
         self.view.update()
+
+    def save_game(self):
+        pass
