@@ -1,8 +1,10 @@
-import math
+import pygame
+from Controller import Controller
 from Color import Color
+import math
 import random
 
-class BoardController:
+class BoardController(Controller):
     master_board_width = 900
     X = "X"
     O = "O"
@@ -15,6 +17,14 @@ class BoardController:
         self.current_board = None
         self.current_player = BoardController.X
         self.previous_coord = None
+        self.setup_boards()   # I don't want to do all this setup in the constructor but am doing it for now.
+
+    def update_ui(self):
+        self.update_view()
+
+    def handle_event(self, event):
+        if event.type == pygame.MOUSEBUTTONUP and event.button == 1:
+            self.handle_left_click_event(event)
 
     def setup_boards(self):
         #player_x, player_o = prompt_player_names()
@@ -94,20 +104,8 @@ class BoardController:
         print (pos)
         click_x = pos[0]
         click_y = pos[1]
-        #prompt_player_names(event, click_x, click_y)
+
         if not self.is_click_on_board(click_x,click_y):
-##            Nice try resetting game, but this doesn't work            
-##            if not is_new_game_clicked(click_x, click_y):
-##                return
-##            game = pygame.display.set_mode([master_board_width,1000])
-##            game.fill((245,175,255))
-##            for i in range(0, master_board_width, int(master_board_width / 3)):
-##                for j in range(0, master_board_width, int(master_board_width / 3)):
-##                    print_board( i+10, j+10, 280,blue)
-##
-##            print_board(0, 0, 900,black)
-##            #player_x, player_y = prompt_player_names()
-##            current_player = X
             return
         board_coord, square_coord = self.get_board_coordinate_from_x_y(pos[0], pos[1])
         selected_board = self.boards[board_coord[0]][board_coord[1]]
