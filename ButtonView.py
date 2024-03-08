@@ -1,6 +1,7 @@
 import pygame
+from View import View
 
-class ButtonView:
+class ButtonView(View):
     def __init__(self, x, y, width, height, foreground, background, text, font_size):
         self.x = x
         self.y = y
