@@ -7,9 +7,10 @@ from Color import Color
 class MasterBoardView(View):
     MASTER_WIDTH = 900
 
-    def __init__(self):
+    def __init__(self, main_surface):
         pygame.init()
-        self.game = pygame.display.set_mode([MasterBoardView.MASTER_WIDTH, 1000])
+        self.game = main_surface
+        #self.game = pygame.display.set_mode([MasterBoardView.MASTER_WIDTH, 1000])
         self.game.fill(Color.DARK_GREEN)
         self.save_game_button = ButtonView(0, 900, 200, 100, Color.WHITE, Color.DARK_GREEN, "Save Game", 32)
 #        self.print_debug_lines()
@@ -37,7 +38,7 @@ class MasterBoardView(View):
 
     def print_game_info(self, current_player):
         x, y = (0, 900)
-        font = pygame.font.SysFont('chalkduster', 32)
+        font = pygame.font.Font('Chalkduster/Chalkduster.ttf', 32)
         text = font.render('Current Player: ' + current_player, True, Color.WHITE, Color.DARK_GREEN)
         text_button = font.render('New Game ', True, Color.WHITE, Color.DARK_GREEN)
         textRect = text.get_rect()
@@ -63,7 +64,7 @@ class MasterBoardView(View):
             font_size = 68
         else:
             font_size = 230
-        font = pygame.font.SysFont('chalkduster', font_size)
+        font = pygame.font.Font('Chalkduster/Chalkduster.ttf', font_size)
         font_surface = font.render('X', True, color, Color.DARK_GREEN)
         font_rect = font_surface.get_rect()
         font_rect.center = (x + width // 2, y + width // 2)
@@ -75,7 +76,7 @@ class MasterBoardView(View):
             font_size = 68
         else:
             font_size = 230
-        font = pygame.font.SysFont('chalkduster', font_size)
+        font = pygame.font.Font('Chalkduster/Chalkduster.ttf', font_size)
         text = font.render('O', True, color, Color.DARK_GREEN)
         textRect = text.get_rect()
         textRect.center = (x + width // 2, y + width // 2)

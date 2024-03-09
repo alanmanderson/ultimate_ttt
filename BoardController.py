@@ -60,7 +60,7 @@ class BoardController(Controller):
 
     def prompt_player_names(self, key_event, x,y):
         clock = pygame.time.Clock() 
-        font = pygame.font.SysFont('chalkduster', 32)
+        font = pygame.font.Font('Chalkduster/Chalkduster.ttf', 32)
         user_text = '' 
         input_rect = pygame.Rect(200, 200, 140, 32) 
         color_active = pygame.Color('lightskyblue3') 

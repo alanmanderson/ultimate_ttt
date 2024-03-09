@@ -1,10 +1,13 @@
-class MenuController:
+from Controller import Controller
+from MenuView import MenuView
 
-    def __init__(self):
-        pass
+class MenuController(Controller):
+
+    def __init__(self, view: MenuView):
+        self.view = view
 
     def update_ui(self):
-        pass
+        self.view.update()
 
     def handle_event(self, event):
         pass
