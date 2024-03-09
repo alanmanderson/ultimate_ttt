@@ -17,7 +17,7 @@ class ButtonView(View):
         self.print()
 
     def print(self):
-        font = pygame.font.SysFont('chalkduster', self.font_size)
+        font = pygame.font.Font('Chalkduster/Chalkduster.ttf', self.font_size)
         if self.hover:
             text = font.render(self.text, True, self.background, self.foreground)
         else:

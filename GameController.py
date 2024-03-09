@@ -2,9 +2,12 @@ import pygame
 from Controller import Controller
 from BoardController import BoardController
 from MenuController import MenuController
+from MenuView import MenuView
 from GameInfoController import GameInfoController
+from GameInfoView import GameInfoView
 from Board import Board
 from MasterBoardView import MasterBoardView
+
 
 class GameController(Controller):
 
@@ -12,11 +15,16 @@ class GameController(Controller):
         self.controllers = []
         self.close_game = False
 
+    def init(self):
+        pygame.display.set_caption("Ultimate TicTacToe")
+        self.generateControllers()
+
     def generateControllers(self):
+        main_surface = pygame.display.set_mode([MasterBoardView.MASTER_WIDTH, 1000])
         boards = [[Board() for i in range(3)] for j in range(3)]
-        self.controllers.append(BoardController(Board(), boards, MasterBoardView()))
-        self.controllers.append(MenuController())
-        self.controllers.append(GameInfoController())
+        self.controllers.append(BoardController(Board(), boards, MasterBoardView(main_surface)))
+        self.controllers.append(MenuController(MenuView(main_surface)))
+        self.controllers.append(GameInfoController(GameInfoView(main_surface)))
 
     def update_ui(self):
         for c in self.controllers:
