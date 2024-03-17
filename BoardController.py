@@ -61,6 +61,8 @@ class BoardController(Controller):
         success = self.master_board.play([board_coord, square_coord])
         if not success:
             return
+        if self.master_board.check_winner():
+            pass
 
 
     def update_view(self):

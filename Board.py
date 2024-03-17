@@ -58,18 +58,25 @@ class Board:
     def check_winner(self):
         if self.winner != None:
             return self.winner
+        spaces = [[],[],[]]
+        for i in range(3):
+            for j in range(3):
+                spaces[i].append(self.spaces[i][j])
+                if isinstance(spaces[i][j], Board):
+                    spaces[i][j] = self.spaces[i][j].check_winner()
         for winner in Board.winners:
-            symbol = self.spaces[winner[0][0]][winner[0][1]]
-            if isinstance(symbol, Board):
-                symbol = symbol.check_winner()
-            if symbol == None:
+            symbols = []
+            symbols.append(spaces[winner[0][0]][winner[0][1]])
+            symbols.append(spaces[winner[1][0]][winner[1][1]])
+            symbols.append(spaces[winner[2][0]][winner[2][1]])
+            if symbols[0] == None:
                 empty_square_found = True
                 continue
-            if self.spaces[winner[0][0]][winner[0][1]] == self.spaces[winner[1][0]][winner[1][1]] and self.spaces[winner[0][0]][winner[0][1]] == self.spaces[winner[2][0]][winner[2][1]]:
-                if symbol == "CAT":
+            if symbols[0] == symbols[1] and symbols[0] == symbols[2]:
+                if symbols[0] == "CAT" or symbols[0] == False:
                     continue
-                self.winner = symbol
-                return symbol
+                self.winner = symbols[0]
+                return symbols[0]
         
         for i in self.spaces:
             for j in i:

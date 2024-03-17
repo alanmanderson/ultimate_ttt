@@ -31,7 +31,11 @@ class BoardView(View):
             return self.surface
         if winner == "X" or winner == "O":
             width = self.surface.get_rect().width
-            text, text_rect = self.get_symbol(winner, Color.YELLOW, width)
+            if winner == "X":
+                color = Color.YELLOW 
+            else:
+                color = Color.WHITE
+            text, text_rect = self.get_symbol(winner, color, width)
             self.surface.blit(text, text_rect)
             return self.surface
         for x in range(3):
@@ -48,8 +52,10 @@ class BoardView(View):
                 elif symbol != None:
                     if [x, y] == self.board.last_play:
                         color = Color.RED
-                    else:
+                    elif symbol == "X":
                         color = Color.YELLOW
+                    else :
+                        color = Color.WHITE
                     text, text_rect = self.get_symbol(symbol, color, self.cell_width)
                     s.blit(text, text_rect)
                 self.surface.blit(s, rect)
@@ -60,7 +66,11 @@ class BoardView(View):
 
     def _draw_current_player(self):
         font = pg.font.Font('Chalkduster/Chalkduster.ttf', 32)
-        text = font.render('Current Player: ' + self.board.current_player, True, Color.WHITE, Color.DARK_GREEN)
+        if self.board.current_player == "X":
+            color = Color.YELLOW
+        else:
+            color = Color.WHITE
+        text = font.render('Current Player: ' + self.board.current_player, True, color, Color.DARK_GREEN)
         textRect = pg.Rect((0,900),(400, 60))
         textRect.center = (self.surface.get_rect().width // 2, 930)
         self.surface.blit(text, textRect)
