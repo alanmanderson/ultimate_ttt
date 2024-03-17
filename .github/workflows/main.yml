@@ -3,7 +3,7 @@ from Board import Board
 from BoardController import BoardController
 from View import View
 
-def check_for_backspace (key_event):
+def check_for_backspace(key_event):
     return event.key == pygame.K_BACKSPACE
 
 def createBoards():
