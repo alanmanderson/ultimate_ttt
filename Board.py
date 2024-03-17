@@ -9,17 +9,47 @@ class Board:
             ((0,0),(1,1),(2,2)),
             ((2,0),(1,1),(0,2))
         ]
-
+    X = "X"
+    O = "O"
+    CAT = "CAT"
     
-    def __init__(self):
-        self.spaces = [[None for i in range(0,3)] for j in range(0,3)]
+    def __init__(self, is_recursive = False):
+        if is_recursive:
+            self.spaces = [[Board() for i in range(0,3)] for j in range(0,3)]
+        else:
+            self.spaces = [[None for i in range(0,3)] for j in range(0,3)]
         self.winner = None
+        self.has_children = is_recursive
+        self.last_play = None
+        self.active_board = None
+        self.current_player = Board.X
 
-    def play(self, symbol, x, y):
+    def play(self, coordinates, symbol = None):
+        if symbol is None:
+            symbol = self.current_player
         if self.check_winner():
             return False
+        x, y = coordinates[0]
         if x >= 3 or y >= 3:
             return False
+        if len(coordinates) > 1:
+            rest = coordinates[1:]
+        if isinstance(self.spaces[x][y], Board):
+            if self.active_board != None and self.active_board != [x,y]:
+                return False
+            success = self.spaces[x][y].play(rest, self.current_player)
+            if success:
+                if self.last_play != None:
+                    last_board = self.last_play[0]
+                    self.spaces[last_board[0]][last_board[1]].last_play = None
+                self.spaces[x][y].last_play = rest[0]
+                self.last_play = coordinates
+                if self.spaces[rest[0][0]][rest[0][1]].check_winner():
+                    self.active_board = None
+                else:
+                    self.active_board = rest[0]
+                self.switch_current_player()
+            return success
         if self.spaces[x][y] != None:
             return False
         self.spaces[x][y] = symbol
@@ -30,6 +60,8 @@ class Board:
             return self.winner
         for winner in Board.winners:
             symbol = self.spaces[winner[0][0]][winner[0][1]]
+            if isinstance(symbol, Board):
+                symbol = symbol.check_winner()
             if symbol == None:
                 empty_square_found = True
                 continue
@@ -41,13 +73,28 @@ class Board:
         
         for i in self.spaces:
             for j in i:
-                if j == None:
+                if j == None or isinstance(j, Board):
                     return False
-        self.winner = "CAT"
+        self.winner = Board.CAT
         return self.winner 
+
+    def switch_current_player(self):
+        if self.current_player == Board.X:
+            self.current_player = Board.O
+        else:
+            self.current_player = Board.X
 
 
     def get_symbol_at_coord(self, x, y):
         return self.spaces[x][y]
 
-   
+
+    def restart(self):
+        if self.has_children:
+            self.spaces = [[Board() for i in range(0,3)] for j in range(0,3)]
+        else:
+            self.spaces = [[None for i in range(0,3)] for j in range(0,3)]
+        self.winner = None
+        self.last_play = None
+        self.active_board = None
+
