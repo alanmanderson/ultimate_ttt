@@ -71,7 +71,8 @@ class BoardView(View):
         else:
             color = Color.WHITE
         text = font.render('Current Player: ' + self.board.current_player, True, color, Color.DARK_GREEN)
-        textRect = pg.Rect((0,900),(400, 60))
+        #textRect = pg.Rect((0,900),(200, 60))
+        textRect = text.get_rect()
         textRect.center = (self.surface.get_rect().width // 2, 930)
         self.surface.blit(text, textRect)
 
