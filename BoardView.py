@@ -54,7 +54,7 @@ class BoardView(View):
                         color = Color.RED
                     elif symbol == "X":
                         color = Color.YELLOW
-                    else :
+                    else:
                         color = Color.WHITE
                     text, text_rect = self.get_symbol(symbol, color, self.cell_width)
                     s.blit(text, text_rect)
@@ -66,11 +66,11 @@ class BoardView(View):
 
     def _draw_current_player(self):
         font = pg.font.Font('Chalkduster/Chalkduster.ttf', 32)
-        if self.board.current_player == "X":
+        if self.board.get_current_player().symbol == "X":
             color = Color.YELLOW
         else:
             color = Color.WHITE
-        text = font.render('Current Player: ' + self.board.current_player, True, color, Color.DARK_GREEN)
+        text = font.render('Current Player: ' + self.board.get_current_player().symbol, True, color, Color.DARK_GREEN)
         #textRect = pg.Rect((0,900),(200, 60))
         textRect = text.get_rect()
         textRect.center = (self.surface.get_rect().width // 2, 930)
